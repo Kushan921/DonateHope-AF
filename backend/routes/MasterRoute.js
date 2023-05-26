@@ -104,5 +104,25 @@ router.route("/get/:id").get((req,res)=>{
     })
 })
 
+//master login
+//http://localhost:8020/master/login
+router.route("/login").post((req, res) => {
+    const password = req.body.password;
+    Master.findOne({ email: req.body.email }).then(user => {
+        // Check if Attendee exists
+        if (!user) {
+            return res.status(404).json({email: "Email not found"});
+        } else {
+            // Check password
+            if (password === user.password) {
+                res.send(user);
+                
+            } else {
+                return res.status(400).json({password: "Password incorrect"});
+            }
+        }
+    });
+});
+
 
 module.exports = router;

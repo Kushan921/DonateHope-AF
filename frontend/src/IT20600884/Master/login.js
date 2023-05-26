@@ -3,12 +3,11 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Header } from "./componenent/header";
-import { useState, useEffect } from "react";
+import { Header } from "../../IT20620202/UserView/componenent/header";
+import { useState } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
-import { toast } from "react-toastify";
 
-const LoginUser = () => {
+const MasterLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   let navigate = useNavigate();
@@ -22,31 +21,32 @@ const LoginUser = () => {
   });
   const onSubmit = (values) => {
     setIsLoading(true);
+    if (values.email == "admin@gmail.com" && values.password == "1234") {
+      navigate("/dashboard");
+    } else {
+      
+      const responses = axios
 
-    const response = axios
-      .post("http://localhost:8020/donor/login", values)
-      .then((res) => {
-        console.log(res.data);
-        toast.success("Login Success");
-        setIsLoading(false);
-        localStorage.setItem("phone", values.phone);
-        localStorage.setItem("isLoggedIn", true);
-        localStorage.setItem("userId", res.data._id);
-        navigate("/");
-      })
-      .catch((err) => {
-        toast.error("Password or Email is incorrect");
-        setIsLoading(false);
-      });
+        .post(`http://localhost:8020/master/login`, {
+          email: values.email,
+          password: values.password,
+        })
+        .then((response) => {
+          setIsLoading(false);
+          alert("Login Successfully")
+          navigate("/doctors")
+        })
+        .catch((err) => {
+          setIsLoading(false);
+          alert("Invalid Credentials")
+        })
+    }
   };
   return (
     <div>
       <Header />
       <div className="flex w-full justify-center max-h-screen">
         <div className=" w-1/2 shadow-lg p-2 mt-10">
-          <div className="w-full text-center text-2xl font-bold text-red-800 bg-yellow-100 py-2">
-            <p>Login Here</p>
-          </div>
           <div className="p-10">
             <Formik
               initialValues={initialValues}
@@ -55,10 +55,11 @@ const LoginUser = () => {
             >
               {({ errors, touched }) => (
                 <Form>
-                  <div className="flex-col w-full my-3">
+                  <h2 className="text-red-800 font-bold text-3xl mb-10 text-center">Master Login</h2>
+                  <div className="flex-col w-full">
                     <div className="ll">
                       {" "}
-                      <p className="font-semibold my-2">Email</p>
+                      <p className="font-semibold">Email</p>
                     </div>
                     <div className="ll">
                       {" "}
@@ -76,10 +77,10 @@ const LoginUser = () => {
                     />
                   </div>
 
-                  <div className="flex-col my-3">
+                  <div className="flex-col">
                     <div className="ll">
                       {" "}
-                      <p className="font-semibold my-2">Password</p>
+                      <p className="font-semibold">Password</p>
                     </div>
                     <div className="ll">
                       {" "}
@@ -98,25 +99,17 @@ const LoginUser = () => {
                   </div>
 
                   <button
-                    className="bg-red-950 text-white w-full py-2 mt-2
+                    className="bg-red-950 text-white w-full py-2 mt-2 hover:bg-white hover:text-red-900 border-2
                 "
                     type="submit"
                   >
                     {isLoading ? (
                       <ClipLoader color="#fff" loading={isLoading} size={20} />
                     ) : (
-                      "Login"
+                      "Logins"
                     )}
                   </button>
-                  <div className="text-center mt-3">
-                    <a
-                      href="/signin"
-                      variant="body2"
-                      className="text-yellow-900 hover:text-yellow-700 underline"
-                    >
-                      {"Don't have an account? Sign Up"}
-                    </a>
-                  </div>
+                  
                 </Form>
               )}
             </Formik>
@@ -127,4 +120,4 @@ const LoginUser = () => {
   );
 };
 
-export default LoginUser;
+export default MasterLogin;
