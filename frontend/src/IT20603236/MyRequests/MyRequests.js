@@ -43,8 +43,9 @@ export default function MyRequests() {
 
 
   useEffect(() => {
+    let contactno = localStorage.getItem("contactno")
     axios
-      .get("http://localhost:8020/normal/0722329450")
+      .get(`http://localhost:8020/normal/${contactno}`)
       .then((response) => {
         if (response) {
           setItems(response.data);
