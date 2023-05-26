@@ -29,6 +29,7 @@ const LoginUser = () => {
         console.log(res.data);
         toast.success("Login Success");
         setIsLoading(false);
+        localStorage.setItem("phone", values.phone);
         localStorage.setItem("isLoggedIn", true);
         localStorage.setItem("userId", res.data._id);
         navigate("/");
