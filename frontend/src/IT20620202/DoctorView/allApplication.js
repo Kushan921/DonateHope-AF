@@ -4,9 +4,20 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-
+import Modal from "react-modal";
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "20%",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+  },
+};
 const AllApplications = () => {
   const [applications, setApplications] = useState();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     axios
@@ -19,6 +30,7 @@ const AllApplications = () => {
   }, []);
 
   const getOne = (id) => {
+    setIsModalOpen(true);
     axios
       .get(`http://localhost:8020/applicant/apply/${id}`)
       .then((res) => {
@@ -113,6 +125,13 @@ const AllApplications = () => {
             ))}
         </tbody>
       </table>
+      <Modal
+        isOpen={isModalOpen}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+        
+      </Modal>
     </div>
   );
 };
