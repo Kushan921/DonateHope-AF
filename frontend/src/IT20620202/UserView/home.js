@@ -6,12 +6,15 @@ import home from "../UserView/images/Homepage1.jpg"
 import home2 from "../UserView/images/Hope1.png"
 
 export default function HomePage() {
+  const [isCurrentUser, setIsCurrentUser] = React.useState(false);
+
   const HeroWrapper = styled.section`
     background: url(${home});
     height: calc(100vh - 93px);
     width: 100%;
     background-size: cover;
   `;
+
   return (
     <section>
       <Header />

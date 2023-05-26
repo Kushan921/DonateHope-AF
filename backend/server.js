@@ -55,6 +55,12 @@ app.use("/normal",normalRouter);
 const bloodRouter = require('./routes/BloodRoute')
 app.use("/blood",bloodRouter);
 
+const donorRouter = require("./routes/DonorRoute");
+app.use("/donor", donorRouter);   
+
+const applicant = require("./routes/ActiveDonorRoute");
+app.use("/applicant", applicant);
+
 
 
 
