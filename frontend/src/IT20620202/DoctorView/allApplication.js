@@ -18,6 +18,7 @@ const customStyles = {
 const AllApplications = () => {
   const [applications, setApplications] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [oneApplication, setOneApplication] = useState();
 
   useEffect(() => {
     axios
@@ -35,6 +36,7 @@ const AllApplications = () => {
       .get(`http://localhost:8020/applicant/apply/${id}`)
       .then((res) => {
         console.log(res.data);
+        setOneApplication([res.data]);
       })
       .catch((err) => {});
   };
@@ -130,7 +132,98 @@ const AllApplications = () => {
         style={customStyles}
         contentLabel="Example Modal"
       >
-        
+        <div>
+          <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
+            <thead class="text-xs text-black uppercase bg-gray-50 dark:bg-red-300">
+              <tr>
+                <th scope="col" class="px-6 py-3">
+                  Bp
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Hb
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Pulse
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Temperature
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Has Donated
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Donated Date
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Has tattoo
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Has Earpiece
+                </th>
+
+                <th scope="col" class="px-6 py-3 text-center">
+                  Weight
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {oneApplication &&
+                oneApplication.map((item) => (
+                  <tr class="bg-white border-b dark:bg-gray-100 dark:border-gray-200 hover:bg-gray-10 dark:hover:bg-gray-200">
+                    <th
+                      scope="row"
+                      class="px-6 py-4 font-medium text-black-950 whitespace-nowrap dark:text-black"
+                    >
+                      {item.Bp}
+                    </th>
+                    <td class="px-6 py-4 dark:text-black">{item.Hb}</td>
+                    <td class="px-6 py-4 dark:text-black">{item.Pulse}</td>
+                    <td class="px-6 py-4 dark:text-black">
+                      {item.Temperature}
+                    </td>
+                    <td class="px-6 py-4 dark:text-black">
+                      {item.hasDonated == true ? (
+                        <div className="bg-green-500 text-center">
+                          <p>yes</p>
+                        </div>
+                      ) : (
+                        <div className="bg-red-500 text-center">
+                          <p>No</p>
+                        </div>
+                      )}
+                    </td>
+                    <td class="px-6 py-4 dark:text-black">
+                      {new Date(item.donatedDate).toLocaleDateString()}
+                    </td>
+                    <td class="px-6 py-4 dark:text-black">
+                      {item.hasTattoo == true ? (
+                        <div className="bg-red-500 text-center">
+                          <p>yes</p>
+                        </div>
+                      ) : (
+                        <div className="bg-green-500 text-center">
+                          <p>No</p>
+                        </div>
+                      )}
+                    </td>
+                    <td class="px-6 py-4 dark:text-black">
+                      {item.hasEarPiercing == true ? (
+                        <div className="bg-red-500 text-center">
+                          <p>yes</p>
+                        </div>
+                      ) : (
+                        <div className="bg-green-500 text-center">
+                          <p>No</p>
+                        </div>
+                      )}
+                    </td>
+
+                    <td class="px-1 py-4 dark:text-black w-full justify-center flex gap-4"></td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
       </Modal>
     </div>
   );
