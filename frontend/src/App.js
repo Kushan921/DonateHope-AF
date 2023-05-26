@@ -18,6 +18,7 @@ import MyRequests from "./IT20603236/MyRequests/MyRequests";
 import DoctorLogin from "./IT20600884/Doctor/login";
 import UserDash from "./IT20620202/UserView/componenent/userDashboard";
 import DoctorSidebar from "./IT20620202/DoctorView/doctorDashbord";
+import MasterLogin from "./IT20600884/Master/login";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/dashboard" exact element={<Dashboard />} />
           <Route path="/doctors" exact element={<AllDoctors />} />
           <Route path="/masters" exact element={<AllMasters />} />
+          <Route path="/master-login" exact element={<MasterLogin/>} />
 
           <Route path="/user-dashboard" exact element={<Sidebar />} />
           <Route path="/requests" exact element={<AllRequests />} />
