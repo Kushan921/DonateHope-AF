@@ -34,7 +34,7 @@ const DoctorLogin = () => {
         .then((response) => {
           setIsLoading(false);
           alert("Login Successfully")
-          navigate("/doctors")
+          navigate("/doctorDashboard")
         })
         .catch((err) => {
           setIsLoading(false);
