@@ -22,6 +22,7 @@ const MasterLogin = () => {
   const onSubmit = (values) => {
     setIsLoading(true);
     if (values.email == "admin@gmail.com" && values.password == "1234") {
+      alert("Login Successfully")
       navigate("/dashboard");
     } else {
       
