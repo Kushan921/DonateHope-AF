@@ -30,7 +30,7 @@ export const Events = () => {
 
   useEffect(() => {
     const response = axios
-      .get(`http://localhost:8020/donor/users/${userId}`, {})
+      .get(`http://localhost:8020/donor/${userId}`, {})
       .then((res) => {
         setIsActive(res.data.isActiveDonor);
       })
