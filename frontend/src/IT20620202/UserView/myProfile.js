@@ -25,6 +25,7 @@ const MyProfile = () => {
   const [donatedDate, setDonatedDate] = React.useState(new Date());
   const [dental, setDental] = React.useState(false);
   const [medicalDocument, setMedicalDocument] = React.useState(null);
+  const [isActive, setIsActive] = React.useState(false);
   const maxDate = new Date();
 
   const userId = localStorage.getItem("userId");
@@ -43,6 +44,7 @@ const MyProfile = () => {
         setGender(res.data.gender);
         setBloodGroup(res.data.bloodGroup);
         setPhone(res.data.contact);
+        setIsActive(res.data.isActiveDonor);
       })
       .catch((err) => {
         setFormLoading(false);
@@ -186,12 +188,17 @@ const MyProfile = () => {
                       "Upload New Photo     "
                     )}
                   </button>
+
                   <button
-                    className=" text-red-800 w-full py-2 mt-14 border-2 flex text-center justify-center gap-3 hover:bg-red-950 hover:text-white
-                      "
+                    className={
+                      isActive
+                        ? "bg-green-500 w-full py-2 mt-14 border-2 flex text-center justify-center gap-3 text-white"
+                        : "text-red-800 w-full py-2 mt-14 border-2 flex text-center justify-center gap-3 hover:bg-red-950 hover:text-white"
+                    }
                     onClick={() => {
                       setIsOpen(true);
                     }}
+                    disabled={isActive}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -199,7 +206,7 @@ const MyProfile = () => {
                       viewBox="0 0 24 24"
                       stroke-width="1.5"
                       stroke="currentColor"
-                      class="w-6 h-6"
+                      class={isActive ? "w-0 h-0" : "w-6 h-6"}
                     >
                       <path
                         stroke-linecap="round"
@@ -208,11 +215,9 @@ const MyProfile = () => {
                       />
                     </svg>
 
-                    {isLoading ? (
-                      <ClipLoader color="#fff" loading={isLoading} size={20} />
-                    ) : (
-                      "Apply For Active Donor "
-                    )}
+                    {isActive
+                      ? "Now you are an Active Donor"
+                      : "Apply For Active Donor "}
                   </button>
                 </div>
               </div>

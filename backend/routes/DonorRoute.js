@@ -82,4 +82,22 @@ router.route("/updateOne/:id").put(async (req, res) => {
   res.json(donor);
 });
 
+router.route("/updateOne/:id").patch(async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { isActiveDonor } = req.body;
+
+    const donor = await Donor.findByIdAndUpdate(id, { isActiveDonor }, { new: true });
+
+    if (!donor) {
+      return res.status(404).json({ error: "Donor not found" });
+    }
+
+    res.json(donor);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 module.exports = router;
