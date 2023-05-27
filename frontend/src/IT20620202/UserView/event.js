@@ -1,7 +1,16 @@
+import axios from "axios";
 import React from "react";
-import Modal from "react-modal";
 import { useEffect, useState } from "react";
+import ClipLoader from "react-spinners/ClipLoader";
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
+import { toast } from "react-toastify";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
+import Modal from "react-modal";
+import DatePicker from "react-datepicker";
+
 const customStyles = {
   content: {
     top: "50%",
@@ -14,6 +23,23 @@ const customStyles = {
 };
 export const Events = () => {
   const [modalIsOpen, setIsOpen] = React.useState(false);
+  const [isActive, setIsActive] = React.useState(false);
+  const [isTermsOn, setIsTermsOn] = React.useState(false);
+
+  const userId = localStorage.getItem("userId");
+
+  useEffect(() => {
+    const response = axios
+      .get(`http://localhost:8020/donor/users/${userId}`, {})
+      .then((res) => {
+        setIsActive(res.data.isActiveDonor);
+      })
+      .catch((err) => {
+        toast.error("Something went wrong");
+        console.log(err);
+      });
+  }, []);
+
   return (
     <section>
       <div className="w-full bg-slate-100 text-2xl mt-10 text-center py-5">
@@ -72,7 +98,7 @@ export const Events = () => {
         <div className="bg-yellow-200 w-auto h-10 p-2">Badulla</div>
         <div className="bg-yellow-200 w-auto h-10 p-2">Jaffna</div>
       </div>
-      <div className="ml-10">
+      <div className="ml-10 flex gap-5">
         <div className=" w-1/5">
           <div className=" bg-red-300 shadow-md rounded-lg">
             <img
@@ -112,7 +138,47 @@ export const Events = () => {
             </div>
           </div>
         </div>
+        <div className=" w-1/5">
+          <div className=" bg-red-300 shadow-md rounded-lg">
+            <img
+              className="object-cover h-full w-full rounded-t-lg"
+              src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/fd/0b/7b/caption.jpg?w=500&h=400&s=1"
+              alt="Card images cap"
+            />
+            <div className="mt-2">
+              <p className="text-3xl font-semibold text-red-900  text-left ml-3">
+                25 TH
+              </p>
+              <p className="text-sm font-semibold text-red-900  text-left ml-3">
+                Junw 2023
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <p className="text-2xl font-semibold text-red-950  text-left ml-3 mt-3 pb-3">
+                Kandy
+              </p>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6 text-red-900"
+                onClick={() => {
+                  setIsOpen(true);
+                }}
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
       </div>
+
       <Modal
         isOpen={modalIsOpen}
         style={customStyles}
@@ -129,6 +195,9 @@ export const Events = () => {
               id="terms"
               type="checkbox"
               value=""
+              onChange={() => {
+                setIsTermsOn(!isTermsOn);
+              }}
               class="w-4 h-4 border border-gray-300 rounded bg-gray-50"
               required
             />
@@ -152,18 +221,29 @@ export const Events = () => {
           >
             Close
           </button>
+
           <button
-            className="bg-yellow-600 w-1/2 text-white py-3 hover:bg-yellow-500 flex gap-5 justify-center"
+            className={
+              isActive
+                ? "bg-yellow-600 w-1/2 text-white py-3 hover:bg-yellow-500 flex gap-5 justify-center"
+                : "bg-red-600 w-1/2 text-white py-3 flex gap-5 justify-center"
+            }
             type="submit"
+            disabled={!isActive}
+            onClick={() => {
+              setIsOpen(false);
+              toast.success("You have successfully enrolled for the event");
+            }}
           >
-            Enroll Me
+            {isActive ? "Enroll Me" : "You are not an active donor"}
+
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="w-6 h-6"
+              class={isActive ? "w-6 h-6" : "w-0 h-0"}
             >
               <path
                 stroke-linecap="round"
