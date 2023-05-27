@@ -55,7 +55,7 @@ export default function AllUsers() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8020/user/")
+      .get("http://localhost:8020/donor/users/")
       .then((response) => {
         if (response) {
           setItems(response.data);
@@ -77,26 +77,26 @@ export default function AllUsers() {
       });
   };
 
-  function AddDoctor(values) {
-    console.log(values);
+  // function AddDoctor(values) {
+  //   console.log(values);
 
-    const response = axios
-      .post(`http://localhost:8020/user/add`, {
-        id: values.id,
-        name: values.name,
-        age: values.age,
-        address: values.address,
-        type: values.type,
-        contact: values.contact,
-      })
-      .then(() => {
-        toast.success("Added Successfully!!");
-        setIsNewOpen(false);
-      })
-      .catch(() => {
-        toast.error("error!!");
-      });
-  }
+  //   const response = axios
+  //     .post(`http://localhost:8020/user/add`, {
+  //       id: values.id,
+  //       name: values.name,
+  //       age: values.age,
+  //       address: values.address,
+  //       type: values.type,
+  //       contact: values.contact,
+  //     })
+  //     .then(() => {
+  //       toast.success("Added Successfully!!");
+  //       setIsNewOpen(false);
+  //     })
+  //     .catch(() => {
+  //       toast.error("error!!");
+  //     });
+  // }
 
   function getOne(id) {
     const response = axios
@@ -134,7 +134,7 @@ export default function AllUsers() {
       <div className="w-full bg-gray-100 py-10 text-center">
         <h1 className="text-2xl">User Details</h1>
       </div>
-      <div className="w-full flex flex-row-reverse px-10 mt-10">
+      {/* <div className="w-full flex flex-row-reverse px-10 mt-10">
         <button
           type="button"
           onClick={() => {
@@ -146,33 +146,34 @@ export default function AllUsers() {
           Add New
          
         </button>
-      </div>
+      </div> */}
       <div className=" px-10 mt-10 ">
         <div class=" shadow-md sm:rounded-lg">
           <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
             <thead class="text-xs text-white-800 uppercase bg-red-500 dark:bg-red-900 dark:text-white-400">
               <tr>
                 <th scope="col" class="px-6 py-3 ">
-                  User Id 
+                  First Name
                 </th>
                 <th scope="col" class="px-6 py-3">
-                  Name
+                  Last Name
                 </th>
                 <th scope="col" class="px-6 py-3">
                   Age
                 </th>
                 <th scope="col" class="px-6 py-3">
-                  Address
+                  Email
+                </th>
+                <th scope="col" class="px-6 py-3 text-center">
+                  NIC
                 </th>
                 <th scope="col" class="px-6 py-3">
-                  type
+                  Blood Type
                 </th>
                 <th scope="col" class="px-6 py-3">
                   Contact
                 </th>
-                <th scope="col" class="px-6 py-3 text-center">
-                  Action
-                </th>
+               
               </tr>
             </thead>
             <tbody>
@@ -182,14 +183,16 @@ export default function AllUsers() {
                     scope="row"
                     class="px-6 py-4 font-medium text-black-950 whitespace-nowrap dark:text-black"
                   >
-                    {item.id}
+                    {item.firstName}
                   </th>
-                  <td class="px-6 py-4 dark:text-black">{item.name}</td>
+                  <td class="px-6 py-4 dark:text-black">{item.lastName}</td>
                   <td class="px-6 py-4 dark:text-black">{item.age}</td>
-                  <td class="px-6 py-4 dark:text-black">{item.address}</td>
-                  <td class="px-6 py-4 dark:text-black">{item.type}</td>
+                  <td class="px-6 py-4 dark:text-black">{item.email}</td>
+                  <td class="px-6 py-4 dark:text-black">{item.NIC}</td>
+                  <td class="px-6 py-4 dark:text-black">{item.bloodGroup}</td>
                   <td class="px-6 py-4 dark:text-black">{item.contact}</td>
-                  <td class="px-1 py-4 w-full justify-center flex gap-4">
+                  
+                  {/* <td class="px-1 py-4 w-full justify-center flex gap-4">
                     <button
                       className="font-medium text-yellow-500 hover:text-yellow-300"
                       onClick={() => {
@@ -240,7 +243,7 @@ export default function AllUsers() {
                         />
                       </svg>
                     </a>
-                  </td>
+                  </td> */}
                 </tr>
               ))}
             </tbody>
@@ -257,7 +260,7 @@ export default function AllUsers() {
           <Formik
             initialValues={initialValues}
             // validationSchema={validationSchema}
-            onSubmit={AddDoctor}
+            // onSubmit={AddDoctor}
           >
             {({ errors, touched }) => (
               <Form>
