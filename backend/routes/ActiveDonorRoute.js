@@ -72,5 +72,22 @@ router.route("/apply/:id").get(async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 });
+router.route("/apply/:id").delete(async (req, res) => {
+  try {
+    const applicationId = req.params.id;
+
+    // Delete the ActiveDonor document by its ID
+    const deletedApplication = await ActiveDonor.findByIdAndDelete(applicationId);
+
+    if (!deletedApplication) {
+      return res.status(404).json({ error: "Application not found" });
+    }
+
+    return res.status(200).json({ message: "Application deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 module.exports = router;

@@ -3,6 +3,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import ClipLoader from "react-spinners/ClipLoader";
 import { toast } from "react-toastify";
 import Modal from "react-modal";
 const customStyles = {
@@ -19,6 +20,9 @@ const AllApplications = () => {
   const [applications, setApplications] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [oneApplication, setOneApplication] = useState();
+  const [isActive, setIsActive] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const userId = localStorage.getItem("userId");
 
   useEffect(() => {
     axios
@@ -39,6 +43,35 @@ const AllApplications = () => {
         setOneApplication([res.data]);
       })
       .catch((err) => {});
+  };
+  const updateDonor = () => {
+    setIsLoading(true);
+    axios
+      .patch(`http://localhost:8020/donor/updateOne/${userId}`, {
+        isActiveDonor: isActive,
+      })
+      .then((res) => {
+        console.log(res.data);
+        setIsLoading(false);
+        toast.success("Updated Successfully");
+        console.log(res.data.isActiveDonor);
+        setIsActive(res.data.isActiveDonor);
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false);
+      });
+  };
+  const deleteItem = (id) => {
+    axios
+      .delete(`http://localhost:8020/applicant/apply/${id}`)
+      .then((res) => {
+        console.log(res.data);
+        toast.error("Deleted Successfully");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -97,15 +130,15 @@ const AllApplications = () => {
                   <a
                     href="#"
                     class="font-medium"
-                    //   onClick={() => {
-                    //     if (
-                    //       window.confirm(
-                    //         "Are you sure you want to delete this Doctor ?"
-                    //       )
-                    //     // ) {
-                    //     //   deleteItem(item._id);
-                    //     // }
-                    //   }}
+                    onClick={() => {
+                      if (
+                        window.confirm(
+                          "Are you sure you want to delete this Doctor ?"
+                        )
+                      ) {
+                        deleteItem(item._id);
+                      }
+                    }}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -162,7 +195,7 @@ const AllApplications = () => {
                 </th>
 
                 <th scope="col" class="px-6 py-3 text-center">
-                  Weight
+                  Set Is Active
                 </th>
               </tr>
             </thead>
@@ -218,11 +251,45 @@ const AllApplications = () => {
                       )}
                     </td>
 
-                    <td class="px-1 py-4 dark:text-black w-full justify-center flex gap-4"></td>
+                    <td class="px-1 py-4 dark:text-black w-full justify-center flex gap-4">
+                      <label class="relative inline-flex items-center cursor-pointer">
+                        <input
+                          type="checkbox"
+                          value={true}
+                          checked={isActive}
+                          class="sr-only peer"
+                          onChange={() => {
+                            setIsActive(!isActive);
+                          }}
+                        />
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                      </label>
+                    </td>
                   </tr>
                 ))}
             </tbody>
           </table>
+        </div>
+        <div className="w-full flex gap-2 mt-10 justify-center items-center text-center   ">
+          <button
+            className="bg-red-800 w-1/3 text-white py-3 hover:bg-red-500"
+            onClick={() => {
+              setIsModalOpen(false);
+            }}
+          >
+            close
+          </button>
+          <button
+            className="bg-green-800 w-1/3 text-white py-3 hover:bg-green-500"
+            type="button"
+            onClick={updateDonor}
+          >
+            {isLoading ? (
+              <ClipLoader color="#fff" loading={isLoading} size={20} />
+            ) : (
+              "Save"
+            )}
+          </button>
         </div>
       </Modal>
     </div>

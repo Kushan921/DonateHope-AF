@@ -23,6 +23,7 @@ import MasterLogin from "./IT20600884/Master/login";
 function App() {
   return (
     <div>
+      <ToastContainer />
       <BrowserRouter>
         <Routes>
           <Route path="/" exact element={<HomePage />} />
@@ -34,7 +35,7 @@ function App() {
           <Route path="/dashboard" exact element={<Dashboard />} />
           <Route path="/doctors" exact element={<AllDoctors />} />
           <Route path="/masters" exact element={<AllMasters />} />
-          <Route path="/master-login" exact element={<MasterLogin/>} />
+          <Route path="/master-login" exact element={<MasterLogin />} />
 
           <Route path="/user-dashboard" exact element={<Sidebar />} />
           <Route path="/requests" exact element={<AllRequests />} />
