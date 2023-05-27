@@ -64,6 +64,16 @@ router.route("/users/:id").get((req, res) => {
     }
   });
 });
+router.route("/users").get((req, res) => {
+  Donor.find()
+    .then((users) => {
+      res.send(users);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    });
+});
 router.route("/updateOne/:id").put(async (req, res) => {
   let donor = await Donor.findById(req.params.id);
   const data = {
@@ -87,7 +97,11 @@ router.route("/updateOne/:id").patch(async (req, res) => {
     const { id } = req.params;
     const { isActiveDonor } = req.body;
 
-    const donor = await Donor.findByIdAndUpdate(id, { isActiveDonor }, { new: true });
+    const donor = await Donor.findByIdAndUpdate(
+      id,
+      { isActiveDonor },
+      { new: true }
+    );
 
     if (!donor) {
       return res.status(404).json({ error: "Donor not found" });
