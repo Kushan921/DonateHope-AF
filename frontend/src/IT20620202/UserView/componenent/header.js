@@ -92,7 +92,7 @@ export const Header = () => {
                   className="text-left px-6 text-sm h-1/2 w-full hover:bg-red-800 rounded-md text-white"
                   type="button"
                   onClick={() => {
-                    navigate('/myProfile');
+                    navigate('/user-dashboard');
                   }}
                 >
                   Profile
