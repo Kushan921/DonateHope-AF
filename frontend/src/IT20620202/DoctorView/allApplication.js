@@ -83,9 +83,9 @@ const AllApplications = () => {
             <th scope="col" class="px-6 py-3">
               Applicant ID
             </th>
-            <th scope="col" class="px-6 py-3">
+            {/* <th scope="col" class="px-6 py-3">
               Applicant Name
-            </th>
+            </th> */}
 
             <th scope="col" class="px-6 py-3 text-center">
               Action
@@ -102,7 +102,7 @@ const AllApplications = () => {
                 >
                   {item._id}
                 </th>
-                <td class="px-6 py-4 dark:text-black">{item.name}</td>
+                {/* <td class="px-6 py-4 dark:text-black">{item.name}</td> */}
 
                 <td class="px-1 py-4 dark:text-black w-full justify-center flex gap-4">
                   <button

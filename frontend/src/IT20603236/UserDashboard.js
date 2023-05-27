@@ -4,31 +4,28 @@ import Requests from "./Requests/Requests";
 import AllMasters from "../IT20600884/Master/AllMasters";
 import AllUsers from "../IT20600884/User/AllUsers";
 import MyRequests from "./MyRequests/MyRequests";
+import MyProfile from "../IT20620202/UserView/myProfile";
+import { Events } from "../IT20620202/UserView/event";
 
 export default function Sidebar() {
   const [open, setOpen] = useState(false);
-  const [selectedField, setSelectedField] = useState("home");
+  const [selectedField, setSelectedField] = useState("my-profile");
   let navigate = useNavigate();
   return (
     <div className="flex">
       <div
-        className={` ${     
-
+        className={` ${
           open ? "w-56" : "w-80 "
         } flex flex-col h-screen p-3 bg-red-950 shadow duration-300`}
-
       >
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold text-white">User Dashboard</h2>
-            
           </div>
 
           <div className="flex-1">
             <ul className="pt-2 pb-4 space-y-1 text-sm">
-              <li className="rounded-sm">
-               
-              </li>
+              <li className="rounded-sm"></li>
               <li className="rounded-sm">
                 <button
                   onClick={() => setSelectedField("my-profile")}
@@ -146,11 +143,12 @@ export default function Sidebar() {
         </div>
       </div>
       <div className="container mx-auto">
-
-        {selectedField === "requests" ? <Requests/> : null}
+        {selectedField === "my-profile" ? <MyProfile /> : null}
+        {selectedField === "events" ? <Events /> : null}
+        {selectedField === "requests" ? <Requests /> : null}
         {selectedField === "masters" ? <AllMasters /> : null}
         {selectedField === "users" ? <AllUsers /> : null}
-        {selectedField === "my-requests" ? <MyRequests/> : null}
+        {selectedField === "my-requests" ? <MyRequests /> : null}
       </div>
     </div>
   );
