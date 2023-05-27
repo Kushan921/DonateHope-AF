@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Header } from "../../IT20620202/UserView/componenent/header";
 import { useState } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
+import { toast } from "react-toastify";
 
 const DoctorLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -22,6 +23,7 @@ const DoctorLogin = () => {
   const onSubmit = (values) => {
     setIsLoading(true);
     if (values.email == "admin@gmail.com" && values.password == "1234") {
+      toast.success("Login Successfully!!");
       navigate("/dashboard");
     } else {
       
@@ -33,7 +35,7 @@ const DoctorLogin = () => {
         })
         .then((response) => {
           setIsLoading(false);
-          alert("Login Successfully")
+          toast.success("Login Successfully!!");
           navigate("/doctorDashboard")
         })
         .catch((err) => {
