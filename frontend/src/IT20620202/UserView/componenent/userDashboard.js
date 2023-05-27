@@ -5,7 +5,7 @@ import { Events } from "../event";
 
 export default function UserDash() {
   const [open, setOpen] = useState(false);
-  const [selectedField, setSelectedField] = useState("home");
+  const [selectedField, setSelectedField] = useState("myProfile");
   let navigate = useNavigate();
   return (
     <div className="flex">
@@ -138,8 +138,8 @@ export default function UserDash() {
             </div>
           </div>
         ) : null}
-        {selectedField === "myProfile" ?<MyProfile/> : null}
-        {selectedField === "events" ?<Events/> : null}
+        {selectedField === "myProfile" ? <MyProfile /> : null}
+        {selectedField === "events" ? <Events /> : null}
         {selectedField === "users" ? null : null}
       </div>
     </div>
