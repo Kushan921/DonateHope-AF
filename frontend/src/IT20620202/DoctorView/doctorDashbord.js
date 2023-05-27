@@ -4,7 +4,7 @@ import AllApplications from "./allApplication";
 
 export default function DoctorSidebar() {
   const [open, setOpen] = useState(false);
-  const [selectedField, setSelectedField] = useState("home");
+  const [selectedField, setSelectedField] = useState("application");
   let navigate = useNavigate();
   return (
     <div className="flex">
@@ -113,7 +113,7 @@ export default function DoctorSidebar() {
             </div>
           </div>
         ) : null}
-        {selectedField === "application" ? <AllApplications/> : null}
+        {selectedField === "application" ? <AllApplications /> : null}
         {selectedField === "masters" ? null : null}
         {selectedField === "users" ? null : null}
       </div>

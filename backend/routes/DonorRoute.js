@@ -54,7 +54,7 @@ router.route("/login").post((req, res) => {
     }
   });
 });
-router.route("/users/:id").get((req, res) => {
+router.route("/:id").get((req, res) => {
   const userId = req.params.id;
   Donor.findById(userId).then((user) => {
     if (!user) {
